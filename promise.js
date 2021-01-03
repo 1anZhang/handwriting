@@ -189,7 +189,9 @@ const promise = new Lie((resolve, reject) => {
     (err) => {
       console.log('err', err);
     }
-  );
+  ).finally(() => {
+    
+  });
 
 /**
  * 最简单的，先实现Promise的finally方法，因为小程序中的Promise是没有这个方法的，
