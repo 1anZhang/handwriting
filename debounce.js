@@ -12,3 +12,40 @@ function debounce(fn, wait) {
     timeout = setTimeout(fn, wait);
   };
 }
+
+
+function debounce(fn, wait) {
+  let timer = null;
+  return function (...args) {
+    let context = this;
+    if (timer !== null) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(fn.apply(context, args), wait)
+  }
+}
+
+function throttle(fn, wait) {
+  let pre = 0;
+  return function (...args) {
+    let context = this;
+    let cur = +new Date();
+    if (cur - pre > wait) {
+      fn.apply(context, args)
+      pre = cur;
+    }
+  }
+}
+
+function throttle2(fn, wait) {
+  let timer = null;
+  return function (...args) {
+    let context = this;
+    if (!timer) {
+      setTimeout(() => {
+          fn.apply(context, args);
+          timer = null;
+      }, wait);
+    }
+  }
+}

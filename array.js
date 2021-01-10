@@ -12,6 +12,8 @@ Array.prototype.myreduce = function (fn, initialValue) {
     throw new TypeError(`${fn} is not a function`);
   }
 
+  // 首先reduce是有的fn是接收4个参数的，accumulator，currentValue, currentIndex, arr
+
   let accumulator, currentValue, currentIndex;
   if (initialValue) {
     accumulator = initialValue;
@@ -28,12 +30,11 @@ Array.prototype.myreduce = function (fn, initialValue) {
     }
   }
 
-  while (currentIndex < sourceArray.length) {
-    if (sourceArray.hasOwnProperty(currentIndex)) {
-      currentValue = sourceArray[currentIndex];
-      accumulator = fn(accumulator, currentValue, currentIndex, sourceArray);
+  for (let i = 0; i < sourceArray.length; i++) {
+    if (sourceArray.hasOwnProperty(i)) {
+      currentValue = sourceArray[i];
+      accumulator = fn(accumulator, currentValue, currentIndex, sourceArray)
     }
-    currentIndex++;
   }
 
   return accumulator;

@@ -1,33 +1,33 @@
 class Scheduler {
-  constructor() {
+  constructor(max) {
+    this.max = max;
     this.tasks = [];
-    this.usingTask = [];
+    // this.usingTask = [];
+    this.runningNumber = 0;
   }
   add(promiseCreator) {
     return new Promise((resolve, reject) => {
-      promiseCreator.resolve = resolve;
-      if (this.usingTask.length < 2) {
-        this.usingRun(promiseCreator);
+      promiseCreator.resove = resolve;
+      if (this.runningNumber <= this.max) {
+        this.runTask(promiseCreator)
       } else {
-        this.tasks.push(promiseCreator);
+        this.tasks.push(promiseCreator)
       }
-    });
+    })
   }
 
-  usingRun(promiseCreator) {
-    this.usingTask.push(promiseCreator);
-    promiseCreator().then(() => {
-      promiseCreator.resolve();
-      this.usingMove(promiseCreator);
+  runTask(promiseCreator) {
+      this.runningNumber++;
+      // this.usingTask.push(promiseCreator);
+    promiseCreator().then(res => {
+      promiseCreator.resolve(res);
+      // let index = this.usingTask.findIndex(promiseCreator);
+      // this.usingTask.splice(index, 1)
+      this.runningNumber--;
       if (this.tasks.length > 0) {
-        this.usingRun(this.tasks.shift());
+        this.runTask(this.tasks.shift())
       }
-    });
-  }
-
-  usingMove(promiseCreator) {
-    let index = this.usingTask.findIndex(promiseCreator);
-    this.usingTask.splice(index, 1);
+    })
   }
 }
 
