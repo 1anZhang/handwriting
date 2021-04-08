@@ -2,13 +2,13 @@ class Scheduler {
   constructor(max) {
     this.max = max;
     this.tasks = [];
-    // this.usingTask = [];
-    this.runningNumber = 0;
+    this.usingTask = [];
+    // this.runningNumber = 0;
   }
   add(promiseCreator) {
     return new Promise((resolve, reject) => {
       promiseCreator.resove = resolve;
-      if (this.runningNumber <= this.max) {
+      if (this.usingTask.length <= this.max) {
         this.runTask(promiseCreator)
       } else {
         this.tasks.push(promiseCreator)
@@ -21,9 +21,9 @@ class Scheduler {
       // this.usingTask.push(promiseCreator);
     promiseCreator().then(res => {
       promiseCreator.resolve(res);
-      // let index = this.usingTask.findIndex(promiseCreator);
-      // this.usingTask.splice(index, 1)
-      this.runningNumber--;
+      let index = this.usingTask.findIndex(promiseCreator);
+      this.usingTask.splice(index, 1)
+      // this.runningNumber--;
       if (this.tasks.length > 0) {
         this.runTask(this.tasks.shift())
       }
